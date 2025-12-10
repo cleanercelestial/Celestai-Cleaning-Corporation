@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天體清掃公司 Celestial Cleaner Corporation</title>
+     <link rel="icon" href="icon.png" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #0891b2;
+            --dark: #1e293b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --grid: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* 3D 透視格子線條背景 */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, #e2e8f0 0%, #f8fafc 100%);
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .grid-layer {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            left: -50%;
+            top: -50%;
+            transform: rotateX(60deg) rotateZ(45deg);
+            transform-origin: center center;
+        }
+
+        .grid-lines-horizontal,
+        .grid-lines-vertical {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .grid-line {
+            position: absolute;
+            background: var(--grid);
+            opacity: 0.3;
+        }
+
+        .grid-line.horizontal {
+            width: 100%;
+            height: 1px;
+        }
+
+        .grid-line.vertical {
+            width: 1px;
+            height: 100%;
+        }
+
+        /* 動態光暈效果 */
+        .glow-orb {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .glow-orb:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(8, 145, 178, 0.1) 0%, transparent 70%);
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(100px, 50px); }
+            50% { transform: translate(50px, 100px); }
+            75% { transform: translate(-50px, 50px); }
+        }
+
+        /* 導航欄 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(203, 213, 225, 0.5);
+            box-shadow: 0 2px 10px rgba(30, 41, 59, 0.05);
+            z-index: 1000;
+            padding: 0;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-image {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-icon {
+            font-size: 1.8em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1400px;
+            margin: 100px auto 50px;
+            padding: 0 40px;
+        }
+
+        /* 首頁 - Hero Section with Video */
+        .hero {
+            text-align: center;
+            padding: 0;
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        /* 全寬影片容器 */
+        .hero-video-container {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            height: 70vh;
+            min-height: 500px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 影片上的漸層遮罩（可選） */
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to top, rgba(241, 245, 249, 1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* 歡迎文字區域 - 移到影片下方 */
+        .hero-content {
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(37, 99, 235, 0.2);
+            z-index: -1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4em;
+            color: var(--secondary);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .hero-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--secondary);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(37, 99, 235, 0.4);
+            background: #1d4ed8;
+        }
+
+        /* 資訊卡片 */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 80px;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid rgba(203, 213, 225, 0.5);
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(30, 41, 59, 0.05);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(30, 41, 59, 0.1);
+            border-color: var(--primary);
+        }
+
+        .info-card-icon {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .info-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .info-card p {
+            line-height: 1.7;
+            color: var(--secondary);
+        }
+
+        /* 頁面容器 */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Documentation 頁面 */
+        .doc-section {
+            background: white;
+            border-left: 4px solid var(--primary);
+            padding: 35px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(30, 41, 59, 0.05);
+        }
+
+        .doc-section h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .doc-section h3 {
+            color: var(--accent);
+            margin: 25px 0 12px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .doc-section p, .doc-section ul {
+            line-height: 1.8;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .doc-section ul {
+            padding-left: 30px;
+        }
+
+        .doc-section li {
+            margin-bottom: 10px;
+        }
+
+        /* 船員名冊頁面圖片 */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .staff-card {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 133%;
+            cursor: pointer;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2))
+                    drop-shadow(0 0 10px rgba(4, 39, 114, 0.3));
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .staff-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2))
+                    drop-shadow(0 0 20px rgba(4, 39, 114, 0.5));
+        }
+
+        .staff-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* 商店頁面樣式 */
+        .shop-filters {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            background: white;
+            border: 2px solid var(--grid);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .shop-item {
+            background: white;
+            border: 1px solid rgba(203, 213, 225, 0.5);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(30, 41, 59, 0.05);
+        }
+
+        .shop-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(30, 41, 59, 0.15);
+            border-color: var(--primary);
+        }
+
+        .shop-item-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shop-item-image::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            top: -50%;
+            left: -50%;
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .shop-item-content {
+            padding: 25px;
+        }
+
+        .shop-item-category {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .shop-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .shop-item-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .shop-item-price {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #f59e0b;
+            white-space: nowrap;
+        }
+
+        .shop-item-description {
+            color: var(--secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .shop-item-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .feature-tag {
+            padding: 6px 12px;
+            background: var(--light);
+            border-radius: 12px;
+            font-size: 0.85em;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        /* 商品詳情模態框 */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .product-modal.active {
+            display: flex;
+        }
+
+        .product-modal-content {
+            background: white;
+            border-radius: 25px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(30, 41, 59, 0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .product-modal-close {
+            position: sticky;
+            top: 0;
+            right: 0;
+            float: right;
+            background: var(--light);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin: 20px;
+            cursor: pointer;
+            font-size: 1.6em;
+            color: var(--secondary);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .product-modal-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .product-modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .product-modal-icon {
+            font-size: 6em;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+        }
+
+        .product-modal-body {
+            padding: 40px;
+        }
+
+        .product-section {
+            margin-bottom: 35px;
+        }
+
+        .product-section-title {
+            font-size: 1.5em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+            padding: 18px;
+            background: var(--light);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .feature-item-icon {
+            font-size: 1.8em;
+            flex-shrink: 0;
+        }
+
+        .feature-item-content {
+            flex: 1;
+        }
+
+        .feature-item-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .feature-item-desc {
+            color: var(--secondary);
+            line-height: 1.6;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .spec-item {
+            padding: 18px;
+            background: var(--light);
+            border-radius: 12px;
+        }
+
+        .spec-label {
+            font-size: 0.9em;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .spec-value {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .product-btn {
+            flex: 1;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .product-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .product-btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .product-btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .product-btn-secondary:hover {
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* 船員詳情彈窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(30, 41, 59, 0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: sticky;
+            top: 0;
+            right: 0;
+            float: right;
+            background: var(--light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 20px;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: var(--secondary);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 60px 40px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .modal-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .detail-section {
+            margin-bottom: 30px;
+        }
+
+        .detail-section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(203, 213, 225, 0.3);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* 任務頁面 */
+        .mission-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .mission-intro h2 {
+            font-size: 2.5em;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .mission-intro p {
+            font-size: 1.2em;
+            color: var(--secondary);
+        }
+
+        .planets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            perspective: 1000px;
+        }
+
+        .planet-card {
+            position: relative;
+            transition: all 0.5s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .planet-card:hover {
+            transform: scale(1.05) rotateY(5deg);
+        }
+
+        .planet-sphere {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            box-shadow: 0 20px 50px rgba(30, 41, 59, 0.2);
+            animation: levitate 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+            background: white;
+            border: 3px solid var(--primary);
+        }
+
+        @keyframes levitate {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .planet-sphere.planet-1 {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-color: #3b82f6;
+        }
+
+        .planet-sphere.planet-2 {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-color: #22c55e;
+        }
+
+        .planet-sphere.planet-3 {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #eab308;
+        }
+
+        .planet-sphere.planet-4 {
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+            border-color: #ec4899;
+        }
+
+        .planet-name {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .planet-status {
+            text-align: center;
+            margin-top: 8px;
+            color: var(--secondary);
+            font-size: 0.95em;
+        }
+
+        /* 任務詳情 */
+        .mission-detail {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(30, 41, 59, 0.1);
+            border: 1px solid rgba(203, 213, 225, 0.5);
+        }
+
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .mission-title {
+            font-size: 2.2em;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .mission-progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            background: var(--light);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .mission-content {
+            margin-top: 30px;
+        }
+
+        .content-title {
+            font-size: 1.5em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .objectives-list {
+            list-style: none;
+        }
+
+        .objective-item {
+            padding: 18px;
+            background: var(--light);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .objective-item:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .objective-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .objective-icon.completed {
+            background: #22c55e;
+            color: white;
+        }
+
+        .objective-icon.pending {
+            background: var(--grid);
+            color: var(--secondary);
+        }
+
+        .objective-item.completed {
+            opacity: 0.7;
+        }
+
+        .objective-item.completed .objective-text {
+            text-decoration: line-through;
+            color: var(--secondary);
+        }
+
+        .objective-text {
+            flex: 1;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .back-button {
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--light);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Discord Bot 同步 */
+        .discord-sync {
+            background: linear-gradient(135deg, #5865f2 0%, #7289da 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 40px;
+            color: white;
+        }
+
+        .sync-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .sync-header h3 {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .info-cards, .shop-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .planets-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* 頁面標題 */
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 2.8em;
+            color: var(--dark);
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .page-subtitle {
+            font-size: 1.2em;
+            color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D 格子背景 -->
+    <div class="grid-background">
+        <div class="grid-layer" id="gridLayer"></div>
+        <div class="glow-orb"></div>
+        <div class="glow-orb"></div>
+    </div>
+
+    <!-- 導航欄 -->
+    <nav>
+        <div class="nav-content">
+            <div class="logo">
+                 <img src="icon.png" alt="Logo" class="logo-image"> 
+                <span>天體清掃公司 Celestial Cleaner Corporation</span>
+            </div>
+            <ul class="nav-links">
+                <li><a class="active" onclick="navigateTo('home')">首頁</a></li>
+                <li><a onclick="navigateTo('docs')">世界觀</a></li>
+                <li><a onclick="navigateTo('staff')">員工名冊</a></li>
+                <li><a onclick="navigateTo('shop')">商店</a></li>
+                <li><a onclick="navigateTo('missions')">任務</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要內容區域 -->
+    <div class="container">
+        <!-- 首頁 -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <!-- 全寬影片區域 -->
+                <div class="hero-video-container">
+                    <video class="hero-video" autoplay muted loop playsinline>
+                        <source src="homepage_video.mp4" type="video/mp4">
+                        <source src="homepage_video.webm" type="video/webm">
+                        您的瀏覽器不支援影片播放。
+                    </video>
+                    <div class="video-overlay"></div>
+                </div>
+
+                <!-- 歡迎文字內容 -->
+                <div class="hero-content">
+                    <h1>歡迎來到<br><span class="highlight">天體清掃公司</span></h1>
+                    <p class="hero-subtitle">全宇宙最值得信賴的清潔公司！</p>
+                    <p class="hero-description">
+                        天體清掃公司是一間歷史悠久、服務項目齊全、員工資歷雄厚，在星際上具有重要影響力與競爭力的清潔服務公司，在清潔領域具有非常前瞻的科技實力，擁有宇宙一流的堆填區與焚化爐，各種排名均位於全宇宙前列。 <br><br>歡迎大家加入天體清掃公司。
+                    </p>
+                    <a href="#" class="cta-button" onclick="navigateTo('docs')">加入我們</a>
+                </div>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-icon">🌍</div>
+                    <h3>探索行星</h3>
+                    <p>前往未知的星球，發現新的資源和生命形式，為太空站帶回珍貴的情報。</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">👥</div>
+                    <h3>組建團隊</h3>
+                    <p>與其他船員合作，發揮各自的專長，共同完成複雜的太空任務。</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">📊</div>
+                    <h3>追蹤進度</h3>
+                    <p>查看您的任務進度、等級提升和成就解鎖，見證您的成長歷程。</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">🏆</div>
+                    <h3>獲得獎勵</h3>
+                    <p>完成任務獲得經驗值和特殊獎勵，提升您的船員等級和聲望。</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Documentation 頁面 -->
+        <div id="docs" class="page">
+            <div class="page-header">
+                <h1 class="page-title">成為員工需要知道的二三事</h1>
+                <p class="page-subtitle">入職後的第一個禮拜會考，記得要倒背如流哦！</p>
+            </div>
+
+            <div class="doc-section">
+                <h2>每個人都會有第一次……</h2>
+                <p>
+                   我們理解成為星際清潔工不是一種容易的決定，您的存在即背負着維持宇宙運作的關鍵命運……這個宇宙還有很多地方等着你來清理！<br>
+                    不論你是人類、小灰人、軟體生物還是未知種族，只要登上天體清掃公司星系駐點便等同於擁有無限壽命——永遠不要害怕犯錯，生物打印機總會把你帶回家的。
+                </p>
+
+                <h3>太空站核心功能</h3>
+                <ul>
+                    <li><strong>行星探索系統</strong> - 訪問不同的行星，每個行星都有獨特的環境和任務</li>
+                    <li><strong>船員等級系統</strong> - 從新手船員逐步晉升為太空站指揮官</li>
+                    <li><strong>任務追蹤系統</strong> - 即時查看任務進度和完成狀態</li>
+                    <li><strong>Discord 整合</strong> - 與 Discord Bot 同步，隨時隨地管理任務</li>
+                </ul>
+            </div>
+
+            <div class="doc-section">
+                <h2>👨‍🚀 船員等級系統</h2>
+                
+                <h3>🔵 Level 1-2: 新手船員</h3>
+                <p>
+                    剛加入太空站的成員，正在學習基本的太空生存技能。此階段的任務較為簡單，
+                    主要是熟悉太空站的環境和操作流程。
+                </p>
+
+                <h3>🟢 Level 3-4: 初級探險家</h3>
+                <p>
+                    已經掌握基本技能，開始參與簡單的行星探索任務。可以獨立完成一些基礎任務，
+                    並開始與其他船員協作。
+                </p>
+
+                <h3>🟡 Level 5-6: 資深船員</h3>
+                <p>
+                    經驗豐富的探險家，能夠處理中等難度的任務。開始擔任小型任務的領隊，
+                    指導新手船員完成任務。
+                </p>
+
+                <h3>🟠 Level 7-8: 精英指揮官</h3>
+                <p>
+                    太空站的核心成員，負責組織和執行重要任務。擁有特殊權限，可以訪問
+                    限制區域和使用高級設備。
+                </p>
+
+                <h3>🔴 Level 9-10: 傳奇船長</h3>
+                <p>
+                    太空站的最高榮譽，只有極少數船員能達到此等級。擁有太空站的最高權限，
+                    參與重大決策，並領導最危險的探險任務。
+                </p>
+            </div>
+
+            <div class="doc-section">
+                <h2>🎮 遊戲機制</h2>
+                
+                <h3>任務系統</h3>
+                <p>
+                    太空站提供多種類型的任務，包括資源收集、行星探索、科學研究、緊急救援等。
+                    每個任務都有明確的目標和獎勵，完成任務後可獲得經驗值和特殊物品。
+                </p>
+
+                <h3>經驗值與升級</h3>
+                <p>
+                    完成任務獲得經驗值（XP），累積足夠的 XP 即可升級。每次升級都會解鎖新的
+                    能力、增加生命值和能量，並獲得更多的任務選擇。
+                </p>
+
+                <h3>合作與競爭</h3>
+                <p>
+                    船員之間既可以合作完成大型任務，也可以在某些競技任務中競爭。合作可以
+                    獲得額外的獎勵加成，而在競技中脫穎而出則能獲得特殊榮譽。
+                </p>
+
+                <h3>資源管理</h3>
+                <p>
+                    太空站需要各種資源維持運作，船員需要定期參與資源收集任務。合理分配
+                    資源、升級設備，是成為優秀船員的關鍵。
+                </p>
+            </div>
+
+            <div class="doc-section">
+                <h2>✨ 特色功能</h2>
+                <ul>
+                    <li><strong>動態任務生成</strong> - 任務會根據太空站當前狀態和船員等級動態生成</li>
+                    <li><strong>成就系統</strong> - 完成特定條件解鎖成就，獲得稀有獎勵和稱號</li>
+                    <li><strong>排行榜</strong> - 查看各項數據的排行，與其他船員競爭</li>
+                    <li><strong>事件系統</strong> - 定期舉辦特殊事件，提供限時任務和獎勵</li>
+                    <li><strong>自訂化</strong> - 自訂您的船員形象、太空艙裝飾等</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 員工名冊頁面 -->
+        <div id="staff" class="page">
+            <div class="page-header">
+                <h1 class="page-title">員工名冊</h1>
+                <p class="page-subtitle">太空站上的每一位員工</p>
+            </div>
+            <div class="staff-grid" id="staffGrid"></div>
+        </div>
+
+        <!-- 商店頁面 -->
+        <div id="shop" class="page">
+            <div class="page-header">
+                <h1 class="page-title">🛒 太空裝備商店</h1>
+                <p class="page-subtitle">最先進的太空清掃工具與設備</p>
+            </div>
+
+            <!-- 篩選按鈕 -->
+            <div class="shop-filters">
+                <button class="filter-btn active" onclick="filterShopItems('all')">全部商品</button>
+                <button class="filter-btn" onclick="filterShopItems('equipment')">清掃設備</button>
+                <button class="filter-btn" onclick="filterShopItems('vehicle')">太空載具</button>
+                <button class="filter-btn" onclick="filterShopItems('protection')">防護裝備</button>
+                <button class="filter-btn" onclick="filterShopItems('tech')">科技配件</button>
+            </div>
+
+            <!-- 商品網格 -->
+            <div class="shop-grid" id="shopGrid"></div>
+        </div>
+
+        <!-- 行星任務頁面 -->
+        <div id="missions" class="page">
+            <div class="mission-intro">
+                <h2>🪐 探索行星任務</h2>
+                <p>選擇一個行星開始您的探險之旅</p>
+            </div>
+
+            <div class="planets-grid" id="planetsGrid">
+                <div class="planet-card" onclick="showMissionDetail('kepler')">
+                    <div class="planet-sphere planet-1">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">🌍</div>
+                    </div>
+                    <div class="planet-name">Kepler-442b</div>
+                    <div class="planet-status">活躍 · 3 個任務</div>
+                </div>
+
+                <div class="planet-card" onclick="showMissionDetail('proxima')">
+                    <div class="planet-sphere planet-2">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">🌱</div>
+                    </div>
+                    <div class="planet-name">Proxima Centauri b</div>
+                    <div class="planet-status">活躍 · 4 個任務</div>
+                </div>
+
+                <div class="planet-card" onclick="showMissionDetail('trappist')">
+                    <div class="planet-sphere planet-3">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">☄️</div>
+                    </div>
+                    <div class="planet-name">TRAPPIST-1e</div>
+                    <div class="planet-status">探索中 · 3 個任務</div>
+                </div>
+
+                <div class="planet-card" onclick="showMissionDetail('gliese')">
+                    <div class="planet-sphere planet-4">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">💎</div>
+                    </div>
+                    <div class="planet-name">Gliese 667 Cc</div>
+                    <div class="planet-status">活躍 · 2 個任務</div>
+                </div>
+            </div>
+
+            <div id="missionDetail"></div>
+
+            <div class="discord-sync">
+                <div class="sync-header">
+                    <span style="font-size: 2em;">💬</span>
+                    <h3>Discord 機器人同步</h3>
+                </div>
+                <div class="sync-status">
+                    <div class="status-indicator"></div>
+                    <span>已連接 · 即時同步任務數據</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 船員詳情彈窗 -->
+    <div class="modal-overlay" id="staffModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeStaffModal()">×</button>
+            <div class="modal-header">
+                <div class="modal-avatar" id="modalAvatar"></div>
+                <h2 id="modalName"></h2>
+                <p id="modalPosition"></p>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- 商品詳情模態框 -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content">
+            <button class="product-modal-close" onclick="closeProductModal()">×</button>
+            <div class="product-modal-header">
+                <div class="product-modal-icon" id="productIcon"></div>
+                <h2 id="productName" style="font-size: 2.5em; margin-bottom: 10px;"></h2>
+                <div id="productCategory" style="display: inline-block; padding: 8px 20px; background: rgba(255,255,255,0.2); border-radius: 20px; margin-bottom: 15px;"></div>
+                <div id="productPrice" style="font-size: 3em; font-weight: 700;"></div>
+                <p id="productDescription" style="margin-top: 20px; font-size: 1.1em; opacity: 0.9;"></p>
+            </div>
+            <div class="product-modal-body" id="productModalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // 生成 3D 格子線條
+        function createGridLines() {
+            const gridLayer = document.getElementById('gridLayer');
+            const spacing = 80;
+            const lineCount = 30;
+
+            for (let i = 0; i < lineCount; i++) {
+                const line = document.createElement('div');
+                line.className = 'grid-line horizontal';
+                line.style.top = `${i * spacing}px`;
+                gridLayer.appendChild(line);
+            }
+
+            for (let i = 0; i < lineCount; i++) {
+                const line = document.createElement('div');
+                line.className = 'grid-line vertical';
+                line.style.left = `${i * spacing}px`;
+                gridLayer.appendChild(line);
+            }
+        }
+
+        // 頁面導航
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            document.getElementById(pageId).classList.add('active');
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 船員資料
+        const staffData = [
+            {
+                id: 'SS-001',
+                name: 'Captain Reynolds',
+                position: '太空站指揮官',
+                level: 10,
+                department: '指揮部',
+                specialization: '戰略指揮',
+                missions: 250,
+                experience: 50000,
+                image: null
+            },
+            {
+                id: 'SS-002',
+                name: 'Dr. Sarah Chen',
+                position: '首席科學家',
+                level: 9,
+                department: '科學研究部',
+                specialization: '生物學',
+                missions: 180,
+                experience: 42000,
+                image: null
+            },
+            {
+                id: 'SS-003',
+                name: 'Lt. Marcus Stone',
+                position: '安全主管',
+                level: 8,
+                department: '安全部',
+                specialization: '戰術作戰',
+                missions: 220,
+                experience: 38000,
+                image: null
+            },
+            {
+                id: 'SS-004',
+                name: 'Engineer Maya',
+                position: '首席工程師',
+                level: 8,
+                department: '工程部',
+                specialization: '太空船維修',
+                missions: 195,
+                experience: 35000,
+                image: null
+            },
+            {
+                id: 'SS-005',
+                name: 'Pilot Alex Turner',
+                position: '資深飛行員',
+                level: 7,
+                department: '飛行部',
+                specialization: '星際導航',
+                missions: 160,
+                experience: 28000,
+                image: null
+            },
+            {
+                id: 'SS-006',
+                name: 'Medic Kim',
+                position: '醫療官',
+                level: 6,
+                department: '醫療部',
+                specialization: '緊急醫療',
+                missions: 140,
+                experience: 22000,
+                image: null
+            },
+            {
+                id: 'SS-007',
+                name: 'Scout Riley',
+                position: '探險家',
+                level: 5,
+                department: '探索部',
+                specialization: '行星勘查',
+                missions: 110,
+                experience: 15000,
+                image: null
+            },
+            {
+                id: 'SS-008',
+                name: 'Rookie Jordan',
+                position: '新手船員',
+                level: 2,
+                department: '訓練部',
+                specialization: '基礎訓練',
+                missions: 25,
+                experience: 2500,
+                image: null
+            }
+        ];
+
+        // 商品資料
+        const shopData = [
+            {
+                id: 1,
+                name: '量子吸塵器 X-3000',
+                price: '49,999',
+                category: 'equipment',
+                categoryName: '清掃設備',
+                icon: '🌪️',
+                description: '採用量子糾纏技術，可同時清理多個維度的太空碎片',
+                features: [
+                    { icon: '⚛️', name: '量子糾纏技術', desc: '可同時清理主宇宙和平行宇宙的碎片' },
+                    { icon: '🔋', name: '零點能源', desc: '從真空中提取能量，永不斷電' },
+                    { icon: '🤖', name: 'AI 智能識別', desc: '自動區分有價值物品和垃圾' },
+                    { icon: '🌡️', name: '溫度調節', desc: '適應 -270°C 至 1000°C 的極端環境' }
+                ],
+                specs: {
+                    '吸力': '5000 Pa',
+                    '工作範圍': '10 公里半徑',
+                    '重量': '3.2 kg',
+                    '電池續航': '無限',
+                    '保固期': '10 年',
+                    '製造商': '銀河科技集團'
+                }
+            },
+            {
+                id: 2,
+                name: '星際掃把 Pro',
+                price: '29,999',
+                category: 'equipment',
+                categoryName: '清掃設備',
+                icon: '🧹',
+                description: '傳統與現代結合，配備反重力系統和離子淨化功能',
+                features: [
+                    { icon: '🌀', name: '反重力系統', desc: '輕鬆在零重力環境中操作' },
+                    { icon: '⚡', name: '離子淨化', desc: '消除靜電和有害離子' },
+                    { icon: '🪶', name: '超輕設計', desc: '僅重 800g，長時間使用不疲勞' },
+                    { icon: '🔧', name: '模組化設計', desc: '可更換不同刷頭適應各種任務' }
+                ],
+                specs: {
+                    '長度': '1.8 公尺',
+                    '重量': '0.8 kg',
+                    '材質': '碳纖維 + 鈦合金',
+                    '刷頭類型': '5 種可選',
+                    '保固期': '5 年',
+                    '原產地': '火星工廠'
+                }
+            },
+            {
+                id: 3,
+                name: '太空垃圾收集艇',
+                price: '1,299,999',
+                category: 'vehicle',
+                categoryName: '太空載具',
+                icon: '🚀',
+                description: '大容量儲存艙，配備 AI 導航系統和碎片追蹤雷達',
+                features: [
+                    { icon: '🧠', name: 'AI 自主導航', desc: '完全自動駕駛，可遠程監控' },
+                    { icon: '📡', name: '量子雷達', desc: '偵測 1000 公里內所有碎片' },
+                    { icon: '🗃️', name: '超大儲存', desc: '可容納 500 立方公尺太空垃圾' },
+                    { icon: '🛡️', name: '裝甲防護', desc: '抵擋小型隕石撞擊' }
+                ],
+                specs: {
+                    '長度': '25 公尺',
+                    '載重量': '200 噸',
+                    '最高速度': '50,000 km/h',
+                    '乘員': '2-4 人',
+                    '保固期': '15 年',
+                    '燃料類型': '反物質'
+                }
+            },
+            {
+                id: 4,
+                name: '納米防護服',
+                price: '89,999',
+                category: 'protection',
+                categoryName: '防護裝備',
+                icon: '🧑‍🚀',
+                description: '納米材料製作，可抵擋微隕石撞擊和宇宙輻射',
+                features: [
+                    { icon: '🛡️', name: '多層防護', desc: '納米材料 + 能量護盾雙重保護' },
+                    { icon: '🔬', name: '自我修復', desc: '小破損可在 30 秒內自動修復' },
+                    { icon: '🌡️', name: '溫控系統', desc: '維持體感溫度 20-25°C' },
+                    { icon: '💨', name: '氧氣循環', desc: '內建 72 小時氧氣供應' }
+                ],
+                specs: {
+                    '尺寸': 'S / M / L / XL',
+                    '重量': '2.5 kg',
+                    '防護等級': 'Level 5',
+                    '氧氣容量': '72 小時',
+                    '保固期': '7 年',
+                    '顏色': '太空藍 / 星雲紫'
+                }
+            },
+            {
+                id: 5,
+                name: '磁力抓手套',
+                price: '19,999',
+                category: 'equipment',
+                categoryName: '清掃設備',
+                icon: '🧤',
+                description: '電磁力增強型手套，輕鬆抓取各種太空碎片',
+                features: [
+                    { icon: '🧲', name: '電磁增強', desc: '可吸附 500kg 的金屬物體' },
+                    { icon: '🔥', name: '耐高溫', desc: '可接觸 2000°C 高溫物體' },
+                    { icon: '❄️', name: '耐低溫', desc: '可在 -273°C 環境使用' },
+                    { icon: '🎮', name: '觸覺反饋', desc: '精確感知抓取物體的質地和重量' }
+                ],
+                specs: {
+                    '最大吸力': '500 kg',
+                    '電池續航': '24 小時',
+                    '尺寸': 'S / M / L',
+                    '材質': '納米纖維',
+                    '保固期': '3 年',
+                    '充電時間': '1 小時'
+                }
+            },
+            {
+                id: 6,
+                name: '全息掃描儀',
+                price: '149,999',
+                category: 'tech',
+                categoryName: '科技配件',
+                icon: '📡',
+                description: '3D 全息投影掃描，精確定位周圍 1000 公里內的所有碎片',
+                features: [
+                    { icon: '🎯', name: '精準定位', desc: '誤差小於 1 公分' },
+                    { icon: '📊', name: '即時分析', desc: '自動分析碎片成分和價值' },
+                    { icon: '🗺️', name: '3D 建模', desc: '生成周圍環境的 3D 地圖' },
+                    { icon: '📱', name: '遠程同步', desc: '資料即時傳送到指揮中心' }
+                ],
+                specs: {
+                    '掃描範圍': '1000 公里',
+                    '解析度': '1 公分',
+                    '掃描速度': '100 km²/秒',
+                    '資料儲存': '10 TB',
+                    '保固期': '5 年',
+                    '電池續航': '48 小時'
+                }
+            },
+            {
+                id: 7,
+                name: '離子推進器背包',
+                price: '79,999',
+                category: 'equipment',
+                categoryName: '清掃設備',
+                icon: '🎒',
+                description: '個人用離子推進系統，提供精確的太空移動控制',
+                features: [
+                    { icon: '🚀', name: '精確控制', desc: '可進行毫米級精確移動' },
+                    { icon: '⚡', name: '快速加速', desc: '0-100 km/h 僅需 2 秒' },
+                    { icon: '🔋', name: '長續航', desc: '單次充電可使用 12 小時' },
+                    { icon: '🪶', name: '輕量化', desc: '僅重 8kg，不影響活動' }
+                ],
+                specs: {
+                    '最高速度': '150 km/h',
+                    '加速度': '50 m/s²',
+                    '續航時間': '12 小時',
+                    '重量': '8 kg',
+                    '保固期': '4 年',
+                    '燃料': '離子電池'
+                }
+            },
+            {
+                id: 8,
+                name: '碎片分解槍',
+                price: '199,999',
+                category: 'equipment',
+                categoryName: '清掃設備',
+                icon: '🔫',
+                description: '使用分子分解技術，將大型碎片分解為無害粒子',
+                features: [
+                    { icon: '⚛️', name: '分子分解', desc: '將物體分解為原子級別' },
+                    { icon: '🎯', name: '精準射擊', desc: '有效射程 500 公尺' },
+                    { icon: '♻️', name: '環保無害', desc: '分解產物完全無害' },
+                    { icon: '🔒', name: '安全鎖', desc: '多重安全機制防止誤觸' }
+                ],
+                specs: {
+                    '射程': '500 公尺',
+                    '功率': '可調 1-10 級',
+                    '冷卻時間': '3 秒',
+                    '彈藥容量': '1000 發',
+                    '保固期': '8 年',
+                    '安全等級': 'AAA+'
+                }
+            },
+            {
+                id: 9,
+                name: '重力穩定器',
+                price: '34,999',
+                category: 'tech',
+                categoryName: '科技配件',
+                icon: '⚙️',
+                description: '創造局部重力場，穩定工作平台和大型碎片',
+                features: [
+                    { icon: '🌍', name: '重力場生成', desc: '創造 0.1-2G 的可調重力' },
+                    { icon: '📏', name: '範圍可調', desc: '作用半徑 1-50 公尺' },
+                    { icon: '⚡', name: '低功耗', desc: '僅需 100W 功率' },
+                    { icon: '🔄', name: '快速切換', desc: '1 秒內完成重力調整' }
+                ],
+                specs: {
+                    '重力範圍': '0.1-2G',
+                    '作用半徑': '1-50 公尺',
+                    '功耗': '100W',
+                    '重量': '5 kg',
+                    '保固期': '6 年',
+                    '能源': '核融合電池'
+                }
+            }
+        ];
+
+        // 生成船員卡片
+        function generateStaffCards() {
+            const grid = document.getElementById('staffGrid');
+            grid.innerHTML = staffData.map(staff => `
+                <div class="staff-card" onclick="showStaffDetail('${staff.id}')">
+                    <img src="celestial-cleaner-id.png" alt="${staff.name}">
+                </div>
+            `).join('');
+        }
+
+        // 生成商店商品
+        function generateShopItems(items = shopData) {
+            const grid = document.getElementById('shopGrid');
+            grid.innerHTML = items.map(item => `
+                <div class="shop-item" onclick="showProductDetail(${item.id})">
+                    <div class="shop-item-image">
+                        <span>${item.icon}</span>
+                    </div>
+                    <div class="shop-item-content">
+                        <div class="shop-item-category">${item.categoryName}</div>
+                        <div class="shop-item-header">
+                            <div class="shop-item-name">${item.name}</div>
+                            <div class="shop-item-price">¥${item.price}</div>
+                        </div>
+                        <p class="shop-item-description">${item.description}</p>
+                        <div class="shop-item-features">
+                            ${item.features.slice(0, 3).map(f => `<span class="feature-tag">✨ ${f.name}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 篩選商品
+        function filterShopItems(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            const filtered = category === 'all' 
+                ? shopData 
+                : shopData.filter(item => item.category === category);
+            
+            generateShopItems(filtered);
+        }
+
+        // 顯示商品詳情
+        function showProductDetail(productId) {
+            const product = shopData.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.getElementById('productModal');
+            
+            document.getElementById('productIcon').textContent = product.icon;
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('productCategory').textContent = product.categoryName;
+            document.getElementById('productPrice').textContent = `¥${product.price}`;
+            document.getElementById('productDescription').textContent = product.description;
+
+            const modalBody = document.getElementById('productModalBody');
+            modalBody.innerHTML = `
+                <div class="product-section">
+                    <div class="product-section-title">
+                        <span>✨</span>
+                        <span>主要功能</span>
+                    </div>
+                    <div class="feature-list">
+                        ${product.features.map(f => `
+                            <div class="feature-item">
+                                <span class="feature-item-icon">${f.icon}</span>
+                                <div class="feature-item-content">
+                                    <div class="feature-item-title">${f.name}</div>
+                                    <div class="feature-item-desc">${f.desc}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="product-section">
+                    <div class="product-section-title">
+                        <span>📋</span>
+                        <span>產品規格</span>
+                    </div>
+                    <div class="specs-grid">
+                        ${Object.entries(product.specs).map(([key, value]) => `
+                            <div class="spec-item">
+                                <div class="spec-label">${key}</div>
+                                <div class="spec-value">${value}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="product-actions">
+                    <button class="product-btn product-btn-primary" onclick="buyProduct('${product.name}')">
+                        立即購買
+                    </button>
+                    <button class="product-btn product-btn-secondary" onclick="addToCart('${product.name}')">
+                        加入購物車
+                    </button>
+                </div>
+            `;
+
+            modal.classList.add('active');
+        }
+
+        // 關閉商品詳情
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('active');
+        }
+
+        // 購買商品
+        function buyProduct(name) {
+            alert(`🎉 感謝購買 ${name}！\n\n我們會盡快安排配送到您的太空站。`);
+            closeProductModal();
+        }
+
+        // 加入購物車
+        function addToCart(name) {
+            alert(`✅ ${name} 已加入購物車！`);
+        }
+
+        // 顯示船員詳情
+        function showStaffDetail(staffId) {
+            const staff = staffData.find(s => s.id === staffId);
+            if (!staff) return;
+
+            const modal = document.getElementById('staffModal');
+            const avatar = document.getElementById('modalAvatar');
+            const name = document.getElementById('modalName');
+            const position = document.getElementById('modalPosition');
+            const body = document.getElementById('modalBody');
+
+            avatar.innerHTML = staff.image ? 
+                `<img src="celestial-cleaner-id.png" alt="${staff.name}">` : 
+                '👤';
+            
+            name.textContent = staff.name;
+            position.textContent = staff.position;
+
+            body.innerHTML = `
+                <div class="detail-section">
+                    <h3>📋 基本資訊</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">船員編號</span>
+                        <span class="detail-value">${staff.id}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">等級</span>
+                        <span class="detail-value">Level ${staff.level}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">所屬部門</span>
+                        <span class="detail-value">${staff.department}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">專業領域</span>
+                        <span class="detail-value">${staff.specialization}</span>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📊 任務統計</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">完成任務</span>
+                        <span class="detail-value">${staff.missions} 次</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">總經驗值</span>
+                        <span class="detail-value">${staff.experience.toLocaleString()} XP</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">成功率</span>
+                        <span class="detail-value">${Math.floor(85 + Math.random() * 15)}%</span>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+        }
+
+        // 關閉船員詳情
+        function closeStaffModal() {
+            document.getElementById('staffModal').classList.remove('active');
+        }
+
+        // 行星任務資料
+        const missionData = {
+            kepler: {
+                name: 'Kepler-442b 探索',
+                icon: '🌍',
+                progress: 65,
+                description: '一個類似地球的系外行星，可能存在液態水和生命跡象',
+                objectives: [
+                    { text: '降落在行星表面', completed: true },
+                    { text: '收集土壤樣本', completed: true },
+                    { text: '掃描生命訊號', completed: false },
+                    { text: '建立通訊基地', completed: false }
+                ]
+            },
+            proxima: {
+                name: 'Proxima Centauri b 任務',
+                icon: '🌱',
+                progress: 78,
+                description: '距離地球最近的系外行星，潛在的人類殖民地候選',
+                objectives: [
+                    { text: '繪製地形圖', completed: true },
+                    { text: '測試大氣成分', completed: true },
+                    { text: '建立資源開採點', completed: true },
+                    { text: '部署監測設備', completed: false }
+                ]
+            },
+            trappist: {
+                name: 'TRAPPIST-1e 調查',
+                icon: '☄️',
+                progress: 42,
+                description: 'TRAPPIST-1 系統中最有潛力的宜居行星',
+                objectives: [
+                    { text: '進入行星軌道', completed: true },
+                    { text: '發射探測器', completed: false },
+                    { text: '分析水源', completed: false },
+                    { text: '評估殖民可行性', completed: false }
+                ]
+            },
+            gliese: {
+                name: 'Gliese 667 Cc 遠征',
+                icon: '💎',
+                progress: 55,
+                description: '一個富含稀有礦物的超級地球',
+                objectives: [
+                    { text: '定位礦脈位置', completed: true },
+                    { text: '採集礦物樣本', completed: true },
+                    { text: '評估開採價值', completed: false },
+                    { text: '建立採礦基地', completed: false }
+                ]
+            }
+        };
+
+        // 顯示任務詳情
+        function showMissionDetail(missionId) {
+            const mission = missionData[missionId];
+            if (!mission) return;
+
+            const detailContainer = document.getElementById('missionDetail');
+            
+            detailContainer.innerHTML = `
+                <div class="mission-detail">
+                    <div class="mission-header">
+                        <div>
+                            <div style="font-size: 3em; margin-bottom: 10px;">${mission.icon}</div>
+                            <h2 class="mission-title">${mission.name}</h2>
+                        </div>
+                    </div>
+
+                    <div class="mission-progress-section">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-weight: 600; color: var(--dark);">任務進度</span>
+                            <span style="font-weight: 700; color: var(--primary);">${mission.progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${mission.progress}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mission-content">
+                        <p style="font-size: 1.1em; color: var(--secondary); margin-bottom: 30px; line-height: 1.7;">
+                            ${mission.description}
+                        </p>
+
+                        <h3 class="content-title">🎯 任務目標</h3>
+                        <ul class="objectives-list">
+                            ${mission.objectives.map(obj => `
+                                <li class="objective-item ${obj.completed ? 'completed' : ''}">
+                                    <div class="objective-icon ${obj.completed ? 'completed' : 'pending'}">
+                                        ${obj.completed ? '✓' : '○'}
+                                    </div>
+                                    <span class="objective-text">${obj.text}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+
+                        <button class="back-button" onclick="hideMissionDetail()">
+                            ← 返回行星列表
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            detailContainer.style.marginTop = '60px';
+            document.getElementById('planetsGrid').style.display = 'none';
+            document.querySelector('.mission-intro').style.display = 'none';
+        }
+
+        // 隱藏任務詳情
+        function hideMissionDetail() {
+            document.getElementById('missionDetail').innerHTML = '';
+            document.getElementById('planetsGrid').style.display = 'grid';
+            document.querySelector('.mission-intro').style.display = 'block';
+        }
+
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            createGridLines();
+            generateStaffCards();
+            generateShopItems();
+        });
+    </script>
+</body>
+</html>
