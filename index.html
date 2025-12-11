@@ -1222,29 +1222,40 @@
                 </div>
             </div>
 
+           <!-- 公佈欄區域 -->
+        <div style="margin-top: 80px;">
+            <!-- 分隔線 -->
+            <hr style="border: none; border-top: 2px solid var(--primary); margin: 40px 0;">
+            
+            <!-- 公佈欄標題 -->
+            <h2 style="text-align: center; color: var(--primary); font-size: 2.5em; font-weight: 700; margin-bottom: 50px;">
+                公司公佈欄
+            </h2>
+            
+            <!-- 四個格子 -->
             <div class="info-cards">
                 <div class="info-card">
-                    <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"> </div>
+                    <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"></div>
                     <h3>非常西格瑪文字</h3>
                     <p>非常西格瑪文字</p>
                 </div>
                 <div class="info-card">
-                    <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"> </div>
-                    <h3>非常西格瑪文字</h3>
-                    <p>非常西格瑪文字。</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"> </div>
+                    <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"></div>
                     <h3>非常西格瑪文字</h3>
                     <p>非常西格瑪文字</p>
                 </div>
                 <div class="info-card">
-                    <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"> </div>
+                    <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"></div>
                     <h3>非常西格瑪文字</h3>
                     <p>非常西格瑪文字</p>
                 </div>
-                
+                <div class="info-card">
+                    <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"></div>
+                    <h3>非常西格瑪文字</h3>
+                    <p>非常西格瑪文字</p>
+                </div>
             </div>
+        </div>
         </div>
 
         <!-- Documentation 頁面 -->
@@ -1337,9 +1348,9 @@
             <div class="shop-filters">
                 <button class="filter-btn active" onclick="filterShopItems('all')">全部商品</button>
                 <button class="filter-btn" onclick="filterShopItems('equipment')">清潔設備</button>
-                <button class="filter-btn" onclick="filterShopItems('vehicle')">清潔劑</button>
+                <button class="filter-btn" onclick="filterShopItems('agents')">清潔劑</button>
                 <button class="filter-btn" onclick="filterShopItems('protection')">防護裝備</button>
-                <button class="filter-btn" onclick="filterShopItems('tech')">額外配件</button>
+                <button class="filter-btn" onclick="filterShopItems('default')">起始裝備</button>
             </div>
 
             <!-- 商品網格 -->
@@ -1564,12 +1575,13 @@
         const shopData = [
             {
                 id: 1,
-                name: '量子吸塵器 X-3000',
-                price: '49,999',
-                category: 'equipment',
-                categoryName: '清掃設備',
+                name: '【起始裝備】清潔工掃把',
+                price: '100',
+                category: ['default', 'equipment'],
+                categoryName: '清潔設備',
                 icon: '🌪️',
-                description: '採用量子糾纏技術，可同時清理多個維度的太空碎片',
+                image: 'icon_white.png',
+                description: '每位星際清潔工入職後自動配給的入門級掃把，除非你很雖小把它搞丟了。',
                 features: [
                     { icon: '⚛️', name: '量子糾纏技術', desc: '可同時清理主宇宙和平行宇宙的碎片' },
                     { icon: '🔋', name: '零點能源', desc: '從真空中提取能量，永不斷電' },
@@ -1587,12 +1599,13 @@
             },
             {
                 id: 2,
-                name: '星際掃把 Pro',
-                price: '29,999',
+                name: '清潔工掃把pro',
+                price: '500',
                 category: 'equipment',
-                categoryName: '清掃設備',
+                categoryName: '清潔設備',
                 icon: '🧹',
-                description: '傳統與現代結合，配備反重力系統和離子淨化功能',
+                image: 'icon_white.png',
+                description: '比起普通清潔工掃把更強大的清潔力！續航力max，無需換水，0死角清潔！',
                 features: [
                     { icon: '🌀', name: '反重力系統', desc: '輕鬆在零重力環境中操作' },
                     { icon: '⚡', name: '離子淨化', desc: '消除靜電和有害離子' },
@@ -1610,12 +1623,13 @@
             },
             {
                 id: 3,
-                name: '太空垃圾收集艇',
-                price: '1,299,999',
-                category: 'vehicle',
-                categoryName: '太空載具',
+                name: '【起始裝備】清潔工防護服 ',
+                price: '800',
+                category: ['default', 'protection'],
+                categoryName: '防護裝備',
                 icon: '🚀',
-                description: '大容量儲存艙，配備 AI 導航系統和碎片追蹤雷達',
+                image: 'icon_white.png',
+                description: '每位星際清潔工入職後自動配給的入門級防護服，易於清洗，擁有基本保暖及納米級led發光功能。',
                 features: [
                     { icon: '🧠', name: 'AI 自主導航', desc: '完全自動駕駛，可遠程監控' },
                     { icon: '📡', name: '量子雷達', desc: '偵測 1000 公里內所有碎片' },
@@ -1633,12 +1647,13 @@
             },
             {
                 id: 4,
-                name: '納米防護服',
-                price: '89,999',
+                name: '清潔工防護服-機動款',
+                price: '2000',
                 category: 'protection',
                 categoryName: '防護裝備',
                 icon: '🧑‍🚀',
-                description: '納米材料製作，可抵擋微隕石撞擊和宇宙輻射',
+                image: 'icon_white.png',
+                description: '提升防毒、防輻射、防火等防禦機能外亦確保用家機動性，適用於B級或以上的清潔項目。',
                 features: [
                     { icon: '🛡️', name: '多層防護', desc: '納米材料 + 能量護盾雙重保護' },
                     { icon: '🔬', name: '自我修復', desc: '小破損可在 30 秒內自動修復' },
@@ -1656,12 +1671,13 @@
             },
             {
                 id: 5,
-                name: '磁力抓手套',
-                price: '19,999',
-                category: 'equipment',
-                categoryName: '清掃設備',
+                name: '清潔工防護服-全防護款',
+                price: '2800',
+                category: 'protection',
+                categoryName: '防護裝備',
                 icon: '🧤',
-                description: '電磁力增強型手套，輕鬆抓取各種太空碎片',
+                image: 'icon_white.png',
+                description: '減少機動性以提供全方位保護，適用於A級或以上的清潔項目。',
                 features: [
                     { icon: '🧲', name: '電磁增強', desc: '可吸附 500kg 的金屬物體' },
                     { icon: '🔥', name: '耐高溫', desc: '可接觸 2000°C 高溫物體' },
@@ -1680,11 +1696,12 @@
             {
                 id: 6,
                 name: '全息掃描儀',
-                price: '149,999',
-                category: 'tech',
-                categoryName: '科技配件',
+                price: '800',
+                category: 'equipment',
+                categoryName: '清潔設備',
                 icon: '📡',
-                description: '3D 全息投影掃描，精確定位周圍 1000 公里內的所有碎片',
+                image: 'icon_white.png',
+                description: '用於掃描及定位周遭可見垃圾，配備氣體分析功能。',
                 features: [
                     { icon: '🎯', name: '精準定位', desc: '誤差小於 1 公分' },
                     { icon: '📊', name: '即時分析', desc: '自動分析碎片成分和價值' },
@@ -1702,12 +1719,13 @@
             },
             {
                 id: 7,
-                name: '離子推進器背包',
-                price: '79,999',
+                name: '大型物件分解槍',
+                price: '500',
                 category: 'equipment',
-                categoryName: '清掃設備',
+                categoryName: '清潔設備',
                 icon: '🎒',
-                description: '個人用離子推進系統，提供精確的太空移動控制',
+                image: 'icon_white.png',
+                description: '用於分解大型物件，請勿朝健全員工使用此裝備。',
                 features: [
                     { icon: '🚀', name: '精確控制', desc: '可進行毫米級精確移動' },
                     { icon: '⚡', name: '快速加速', desc: '0-100 km/h 僅需 2 秒' },
@@ -1725,12 +1743,13 @@
             },
             {
                 id: 8,
-                name: '碎片分解槍',
-                price: '199,999',
-                category: 'equipment',
-                categoryName: '清掃設備',
+                name: '【起始裝備】入門級清潔劑',
+                price: '10',
+                category:  ['default', 'agents'],
+                categoryName: '清潔劑',
                 icon: '🔫',
-                description: '使用分子分解技術，將大型碎片分解為無害粒子',
+                image: 'icon_white.png',
+                description: '消耗品，每位星際清潔工入職後自動配給10瓶，輕微提升清潔效能，適用於廣泛衛生清潔。',
                 features: [
                     { icon: '⚛️', name: '分子分解', desc: '將物體分解為原子級別' },
                     { icon: '🎯', name: '精準射擊', desc: '有效射程 500 公尺' },
@@ -1748,12 +1767,13 @@
             },
             {
                 id: 9,
-                name: '重力穩定器',
-                price: '34,999',
-                category: 'tech',
-                categoryName: '科技配件',
+                name: '特殊清潔劑 ',
+                price: '10',
+                category: 'agents',
+                categoryName: '清潔劑',
                 icon: '⚙️',
-                description: '創造局部重力場，穩定工作平台和大型碎片',
+                image: 'icon_white.png',
+                description: '消耗品，專精於移除氣味或深層滲入性污垢，適用於特殊清潔項目。 ',
                 features: [
                     { icon: '🌍', name: '重力場生成', desc: '創造 0.1-2G 的可調重力' },
                     { icon: '📏', name: '範圍可調', desc: '作用半徑 1-50 公尺' },
@@ -1768,7 +1788,10 @@
                     '保固期': '6 年',
                     '能源': '核融合電池'
                 }
-            }
+            },
+            
+            
+            
         ];
 
         // 生成船員卡片
@@ -1781,13 +1804,16 @@
             `).join('');
         }
 
-        // 生成商店商品
+       // 生成商店商品
         function generateShopItems(items = shopData) {
             const grid = document.getElementById('shopGrid');
             grid.innerHTML = items.map(item => `
                 <div class="shop-item" onclick="showProductDetail(${item.id})">
                     <div class="shop-item-image">
-                        <span>${item.icon}</span>
+                        ${item.image 
+                            ? `<img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">` 
+                            : `<span>${item.icon}</span>`
+                        }
                     </div>
                     <div class="shop-item-content">
                         <div class="shop-item-category">${item.categoryName}</div>
@@ -1796,15 +1822,12 @@
                             <div class="shop-item-price">¥${item.price}</div>
                         </div>
                         <p class="shop-item-description">${item.description}</p>
-                        <div class="shop-item-features">
-                            ${item.features.slice(0, 3).map(f => `<span class="feature-tag">✨ ${f.name}</span>`).join('')}
-                        </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // 篩選商品
+            // 篩選商品
         function filterShopItems(category) {
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -1813,19 +1836,32 @@
 
             const filtered = category === 'all' 
                 ? shopData 
-                : shopData.filter(item => item.category === category);
+                : shopData.filter(item => {
+                    // ✅ 支援陣列和字串兩種格式
+                    if (Array.isArray(item.category)) {
+                        return item.category.includes(category);
+                    }
+                    return item.category === category;
+                });
             
             generateShopItems(filtered);
         }
 
-        // 顯示商品詳情
+                // 顯示商品詳情
         function showProductDetail(productId) {
             const product = shopData.find(p => p.id === productId);
             if (!product) return;
 
             const modal = document.getElementById('productModal');
             
-            document.getElementById('productIcon').textContent = product.icon;
+            // ✅ 修改這裡
+            if (product.image) {
+                document.getElementById('productIcon').innerHTML = 
+                    `<img src="${product.image}" alt="${product.logo}" style="max-width: 200px; max-height: 200px; object-fit: contain; border-radius: 15px;">`;
+            } else {
+                document.getElementById('productIcon').textContent = product.icon;
+            }
+            
             document.getElementById('productName').textContent = product.name;
             document.getElementById('productCategory').textContent = product.categoryName;
             document.getElementById('productPrice').textContent = `¥${product.price}`;
@@ -1865,15 +1901,6 @@
                         `).join('')}
                     </div>
                 </div>
-
-                <div class="product-actions">
-                    <button class="product-btn product-btn-primary" onclick="buyProduct('${product.name}')">
-                        立即購買
-                    </button>
-                    <button class="product-btn product-btn-secondary" onclick="addToCart('${product.name}')">
-                        加入購物車
-                    </button>
-                </div>
             `;
 
             modal.classList.add('active');
@@ -1884,16 +1911,7 @@
             document.getElementById('productModal').classList.remove('active');
         }
 
-        // 購買商品
-        function buyProduct(name) {
-            alert(`🎉 感謝購買 ${name}！\n\n我們會盡快安排配送到您的太空站。`);
-            closeProductModal();
-        }
-
-        // 加入購物車
-        function addToCart(name) {
-            alert(`✅ ${name} 已加入購物車！`);
-        }
+     
 
         // 顯示船員詳情
         function showStaffDetail(staffId) {
