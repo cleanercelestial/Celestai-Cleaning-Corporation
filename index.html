@@ -359,7 +359,13 @@
         .doc-section h3 {
             color: var(--accent);
             margin: 25px 0 12px;
-            font-size: 1.4em;
+            font-size: 1.6em;
+            font-weight: 600;
+        }
+         .doc-section h4 {
+            color: #6a95a0;
+            margin: 10px 0 6px;
+            font-size: 1em;
             font-weight: 600;
         }
 
@@ -773,6 +779,14 @@
             animation: slideUp 0.3s ease-out;
         }
 
+        .staff-quote {
+            display: block;
+            color: #5f6f83;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 20px;
+            text-align: center;  /* 文字置中 */
+}
+
         @keyframes slideUp {
             from { transform: translateY(50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
@@ -802,19 +816,19 @@
             transform: rotate(90deg);
         }
 
-        .modal-header {
+       .modal-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            padding: 60px 40px 40px;
+            padding: 60px clamp(40px, 10vw, 90px) 40px;  /* 自動適應 */
             text-align: center;
             color: white;
         }
 
-        .modal-avatar {
+       .modal-avatar {
             width: 120px;
             height: 120px;
             border-radius: 50%;
             background: white;
-            margin: 0 auto 20px;
+            margin: 0 auto 20px;        /* 保持這個 */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1169,6 +1183,17 @@
             font-size: 1.2em;
             color: var(--secondary);
         }
+
+        .inline-link {
+            color: var(--accent);
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .inline-link:hover {
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -1216,7 +1241,7 @@
                     <h1>歡迎來到<br><span class="highlight">天體清掃公司</span></h1>
                     <p class="hero-subtitle">全宇宙最值得信賴的清潔公司！</p>
                     <p class="hero-description">
-                        天體清掃公司是一間歷史悠久、服務項目齊全、員工資歷雄厚，在星際上具有重要影響力與競爭力的清潔服務公司，在清潔領域具有非常前瞻的科技實力，擁有宇宙一流的堆填區與焚化爐，各種排名均位於全宇宙前列。 <br><br>歡迎大家加入天體清掃公司。
+                        天體清掃公司是一間歷史悠久、服務項目齊全、員工資歷雄厚，在星際上具有重要影響力與競爭力的清潔服務公司，在清潔領域具有非常前瞻的科技實力，擁有宇宙一流的再生技術與焚化爐，各種排名均位於全宇宙前列。 <br><br>歡迎大家加入天體清掃公司。
                     </p>
                     <a href="#" class="cta-button" onclick="navigateTo('docs')">加入我們</a>
                 </div>
@@ -1242,11 +1267,11 @@
                 <div class="info-card">
                     <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"></div>
                     <h3>【討論】杜絕休息室欺凌</h3>
-                    <p>哪個智障一天天的拿水桶放門框上啊？？有種面對面來輸贏啊😡</p>
+                    <p>哪個智障一天天的在門框上放水桶啊？？有種出來輸贏啊😡</p>
                 </div>
                 <div class="info-card">
                     <div class="info-card-icon"><img src="icon.png" alt="Logo" class="logo-image"></div>
-                    <h3>【提問】員工餐廳有肉餅飯嗎</h3>
+                    <h3>【提問】員工餐廳有肉餅飯嗎？</h3>
                     <p>最好大件夾抵食，味蕾級炸彈</p>
                 </div>
                 <div class="info-card">
@@ -1265,6 +1290,23 @@
                 <p class="page-subtitle">入職後的第一個禮拜會考，記得要倒背如流哦！</p>
             </div>
 
+             <div class="doc-section">
+                <h2>星際科幻×人外×肉體變異</h2>
+                <p>「呼——又活了一天……！」</p>
+                <h3>參企須知</h3>
+                <p>本企劃定位為r16休閑企劃，採用邀請制，內容包含血腥及死亡描寫，玩家參企前應先衡量自身心理承受能力，未成年人士請斟酌進入此企劃。</p>
+                <h3>企劃軸心</h3>
+                <p>玩家需扮演外星組織 天體清掃公司 旗下的星際清潔工，工作期間或會遭受非人對待、無限次死亡等遭遇，直至進行命運抉擇——升職還是離職？<br>
+                    活動內容以非強制性任務為主，不定期釋出團康內容，現階段正在進行內部測試。</p>
+                    <h3>創角規範</h3>
+                    <p>場內企劃角色必須符合此項設定：有必不得已的理由簽下成為「星際清潔工」的合約。<br>
+                    角色可來自任何星球，玩家可在不影響其他玩家的情況下自行創作角色原本居住的星球及種族設定等內容，唯需留意任何與魔法相關的設定將會在角色進入公司後無效化，體質設定（如啃食鋼鐵、身體由水構成……）則不在此規限內。</p>
+                    <h3>報名流程</h3>
+                    <p>閱讀本頁內容後，填妥此 Google問卷。</p>
+                
+            </div>
+
+
             <div class="doc-section">
                 <h2>每個人都會有第一次……</h2>
                 <p>
@@ -1276,54 +1318,101 @@
                 <ul>
                     <li><strong>星際清潔工</strong> - 本公司最重要的人力資源，也就是你現在的職位！<br>星際清潔工的職責是打掃宇宙的每個角落——其中可能包括災後無人敢踏足的星體——直到讓它們再次成為適合生物居住的地方！</li>
                     <li><strong>星系駐點</strong> - 你目前所在的駐點為 【天體清掃公司C3號駐點】，位於 后髮座第三行星 上方。詳情請見［關於星系駐點］。</li>
-                    <li><strong>生物打印機</strong> - 可能是本公司最具代表性的生物再生技術！<br>每一位星際清潔工在入職前必須進行生物掃描，以便科技部門在員工損毁後可以隨時打印生物複本。詳情請見［生物打印原則］。</li>
-        
+                    <li><strong>生物打印機</strong> - 可能是本公司最具代表性的生物再生技術！<br>每一位星際清潔工在入職前必須進行生物掃描，以便科技部門在員工損毁後可以隨時打印生物複本。詳情請見<a href="#bioprinting-principles" class="inline-link" onclick="scrollToSection(event, 'bioprinting-principles')">［生物打印原則］</a>。</li>
                 </ul>
             </div>
 
             <div class="doc-section">
                 <h2>關於星系駐點</h2>
-                
-                <h3>非常西格瑪文字</h3>
-                <p>
-                    非常西格瑪文字
-                </p>
+               
+                <p>天體清掃公司C3號駐點，也就是你目前居留的星艦！沒有出差工作的話，這裏的設施足夠讓你生活一輩子。
 
-                <h3>非常西格瑪文字</h3>
+<br>C3號星艦由自動穿梭系統貫穿，員工可乘搭穿梭系統內的代步工具前往A區、B區或C區。喜歡健身的員工也可以使用行人道，6小時即可走完整個穿梭系統。</p>
+                
+                <h3>A區</h3>
+        
+                <ul><p>
+                   主控機艙及員工休息室等私人區域，設有24小時食堂、梳洗區、洗衣房及自動販賣區。<br>
+
+                    <h4>[牛媽媽食堂] </h4><p>畢竟吃飽了才有力氣工作嘛！牛媽媽食堂的阿姨從不手抖，不管你是甚麼生物，一定會把你餵飽飽的。</p>
+
+                    <h4>[梳洗區]</h4> <p>房間裏的洗手台不一定能把自己洗乾淨，但梳洗區的自動梳洗系統一定可以。只需進入所屬性別之自動梳洗區，強力毛刷便能把陳年老垢刷出來，喜歡溫和一點的也可以去普通泡澡及淋浴區。</p>
+
+                    <h4>[洗衣房]</h4> <p>無論員工體型大小，禁止使用洗衣機洗澡。</p>
+
+                    <h4>[自動販賣區] </h4><p>販賣飲料、零食及基本生活用品，不定期加入新商品，無法從販賣機外部破解或進行0元購，僅能使用Cp. 交易。Cp. 詳情請見［員工守則］</p>
+                </p></ul>
+
+                <h3>B區</h3>
+                 <ul><p>
+                   可能是員工最愛逗留的區域，B區多為公共設施，也設有商場、健身房、資訊館等休閒場所。<br>
+                  
+
+                    <h4>[商場]</h4> <p>場外玩家可作為商業npc進駐商場，目前未開放申請，敬請期待！</p>
+
+                   <h4>[健身房] </h4> <p>健身可提升體能臨時值，員工在死亡重新打印後將進行重置。</p>
+
+                    <h4>[資訊館] </h4><p>可用電子閱讀屏幕瀏覽星際網上的最新資訊，也有完全由紙張製成的實體讀物。</p>
+
+                    <h4>[技術中心]</h4> <p>公司幹部辦工的地方，生物科技部也在這𥚃，負責打印及修補已損毁員工。</p>
+                </p></ul>
+
+                <h3>C區</h3>
                 <p>
-                   非常西格瑪文字
+                  <ul> 倉庫區及交通樞紐，位於星艦的最尾端，進行出差任務時需抵達此區搭乘小型飛船前往任務地點，亦可從倉庫區交易窗購入任務所需物資。</ul>
                 </p>
 
             </div>
 
             <div class="doc-section">
-                <h2>員工規範</h2>
+                <h2>員工規範</h2>   
+               
                 
-                <h3>基本儀容</h3>
-                <p>
-                    非常西格瑪文字
-                </p>
+                <h3>1. 基本儀容</h3>
+                 <UL><p>
+                    ［1.1］員工需隨時穿着帶有公司圖示的合規格制服。<br>
+                    ［1.2］由於物種體型不一，本公司允許員工根據自身需求訂製特別版型之制服，修改長度、減少或增加制服袖口為合規格修改。<br>
+                    ［1.3］軟體生物等不適合穿著制服等員工，必佩戴公司圖示金屬章及每日噴上特製噴霧以使用基本制服功能。<br>
+                    ［1.4］任務期間需嚴格遵守此制服led使用守則。除非指揮部門下令，請勿於任務期間擅自更改制服led圖示。<br>
+                </p> </UL> 
 
-                <h3>工作紀律</h3>
-                <p>
-                    非常西格瑪文字
-                </p>
+                <h3>2. 工作紀律</h3>
+                <ul><p>
+                    ［2.1］員工每日需使用 !每日簽到 準時打卡，否則將以曠工為由扣除該日工資。<br>
+                    ［2.2］請避免與其他員工發生肢體及語言衝突。<br>
+                    ［2.3］請以認真的態度完成工作，切勿敷衍了事。<br>
+                    ［2.4］任何與機械或危險用品有關之操作，必須嚴謹按照操作流程執行。<br>
+                    ［2.5］ 請勿向公司外部人士透露任何有關清潔個案之細節。<br>
+                </p></ul>
 
-                <h3>任務流程</h3>
-                <p>
-                    非常西格瑪文字
-                </p>
+                <h3>3. 任務流程</h3>
+                <ul><p>
+                    ［3.1］清潔工資薪結構為每月基本薪水加上任務獎金，任務獎金將會於完成任務打卡後自動發放。<br>
+                    ［3.2］任務以接案制為主，員工應衡量自身能力後選取與自身能力相符之工作項目。<br>
+                    ［3.3］若有緊急任務，公司將會自動安排分配予合適員工。<br>
+                    ［3.4］接案前必須細閱個案簡介，並根據任務需求進行組隊（若有）。<br>
+                    ［3.5］切勿同時接案多個任務。<br>
+                </p></ul>
 
-                <h3>貨幣使用</h3>
-                <p>
-                    非常西格瑪文字
-                </p>
+                <h3>4. 貨幣使用</h3>
+                <ul><p>
+                    ［4.1］Cleaner Point (Cp.)為公司內部電子貨幣，儲存於員工的個人晶片中。<br>
+                    ［4.2］員工可於公司內部使用Cp. 進行交易動作。<br>
+                    ［4.3］員工在職期間無法將Cp. 兌換成任何形式的貨幣。<br>
+                    ［4.4］員工離職後將會得到與剩餘Cp. 等值的離職獎金。 <br>
+
+                </p></ul>
+                     
             </div>
 
-            <div class="doc-section">
-                <h2>生物打印原則</h2>
+        <div class="doc-section" id="bioprinting-principles">
+            <h2>生物打印原則</h2>
                 <ul>
-                    非常西格瑪文字
+                    ［1］每位員工在入職前必須進行生物掃描作為打印藍本，入職後無法再次進行掃描。<br>
+                    ［2］打印後的員工仍保留正常生理功能，唯生理變化（如健身或老化）會因再次打印而重置。<br>
+                    ［3］生物打印僅適用於明顯失去生命跡象或被生命追蹤系統判定為死亡的員工。<br>
+                    ［4］如員工不幸於任務期間罹難，需由隊友回收該遺體，若情況不理想，公司將會派遺後備小隊作後續處理。<br>
+                    ［5］每進行一次打印，員工編號的尾碼將自動遞增。
                 </ul>
             </div>
         </div>
@@ -1359,7 +1448,12 @@
 
         <!-- 行星任務頁面 -->
         <div id="missions" class="page">
-            <div class="mission-intro">
+             <div class="doc-section" id="404 not found">
+            <h2>啊，公司出錯啦！清潔任務404 not found</h2>
+                
+            </div>
+        </div>
+            <!-- <div class="mission-intro">
                 <h2>🪐 探索行星任務</h2>
                 <p>選擇一個行星開始您的探險之旅</p>
             </div>
@@ -1411,7 +1505,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- 船員詳情彈窗 -->
     <div class="modal-overlay" id="staffModal">
@@ -1442,6 +1536,18 @@
     </div>
 
     <script>
+
+        // 滾動到指定區塊
+        function scrollToSection(event, targetId) {
+            event.preventDefault();
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
         // 生成 3D 格子線條
         function createGridLines() {
             const gridLayer = document.getElementById('gridLayer');
@@ -1483,91 +1589,83 @@
         const staffData = [
             {
                 id: 'SS-001',
-                name: 'nerd',
-                position: 'nerd',
-                level: 67,
-                department: 'com sci',
-                specialization: 'com sci',
-                missions: 0,
-                experience: 6767,
-                image: null
+                name: 'Hato',
+                position: '資深清潔工',
+                death: 63,
+                department: 'N/A',
+                quote:'不想上班，請公司對我好一點。',
+                image: 'assets/employees/hato.png',
+                avatar:'assets/avatar/hato_avatar.png'
             },
             {
-                id: 'SS-001',
+                id: 'SS-002',
                 name: 'nerd',
                 position: 'nerd',
-                level: 67,
+                death: 67,
                 department: 'com sci',
-                specialization: 'com sci',
-                missions: 0,
-                experience: 6767,
-                image: null
+                quote:'Well, actually☝️🤓',
+                image: 'assets/employees/celestial-cleaner-id.png',
+                avatar: null
             },
             {
-                id: 'SS-001',
+                id: 'SS-003',
                 name: 'nerd',
                 position: 'nerd',
-                level: 67,
+                death: 67,
                 department: 'com sci',
-                specialization: 'com sci',
-                missions: 0,
-                experience: 6767,
-                image: null
+                quote:'Well, actually☝️🤓',
+                image: 'assets/employees/celestial-cleaner-id.png',
+                avatar: null
             },
             {
-                id: 'SS-001',
+                id: 'SS-004',
                 name: 'nerd',
                 position: 'nerd',
-                level: 67,
+                death: 67,
                 department: 'com sci',
-                specialization: 'com sci',
-                missions: 0,
-                experience: 6767,
-                image: null
+                quote:'Well, actually☝️🤓',
+                image: 'assets/employees/celestial-cleaner-id.png',
+                avatar: null
             },
             {
-                id: 'SS-001',
+                id: 'SS-005',
                 name: 'nerd',
                 position: 'nerd',
-                level: 67,
+                death: 67,
                 department: 'com sci',
-                specialization: 'com sci',
-                missions: 0,
-                experience: 6767,
-                image: null
+                quote:'Well, actually☝️🤓',
+                image: 'assets/employees/celestial-cleaner-id.png',
+                avatar: null
             },
             {
-                id: 'SS-001',
+                id: 'SS-006',
                 name: 'nerd',
                 position: 'nerd',
-                level: 67,
+                death: 67,
                 department: 'com sci',
-                specialization: 'com sci',
-                missions: 0,
-                experience: 6767,
-                image: null
+                quote:'Well, actually☝️🤓',
+                image: 'assets/employees/celestial-cleaner-id.png',
+                avatar: null
             },
             {
-                id: 'SS-001',
+                id: 'SS-007',
                 name: 'nerd',
                 position: 'nerd',
-                level: 67,
+                death: 67,
                 department: 'com sci',
-                specialization: 'com sci',
-                missions: 0,
-                experience: 6767,
-                image: null
+                quote:'Well, actually☝️🤓',
+                image: 'assets/employees/celestial-cleaner-id.png',
+                avatar: null
             },
             {
-                id: 'SS-001',
+                id: 'SS-008',
                 name: 'nerd',
                 position: 'nerd',
-                level: 67,
+                death: 67,
                 department: 'com sci',
-                specialization: 'com sci',
-                missions: 0,
-                experience: 6767,
-                image: null
+                quote:'Well, actually☝️🤓',
+                image: 'assets/employees/celestial-cleaner-id.png',
+                avatar: null
             }
         ];
 
@@ -1589,11 +1687,11 @@
                     { icon: '💎', name: '地表最強品質', desc: '採用Nokia同款物料製作，可作為武器，一刷二用。' }
                 ],
                 specs: {
-                    '價格': '100cp',
-                    '續航力': '無限',
-                    '重量': '0.4 kg',
-                    '使用條件': '需連接水源',
-                    '耐久度': '無',
+                    '價格': '100 Cp.',
+                    '續航力': 'N/A',
+                    '重量': '0.6 kg',
+                    '使用條件': '需加入清潔劑，或需連接水源',
+                    '耐久度': 'N/A',
                     '製造商': '天體清潔公司本部'
                 }
             },
@@ -1607,18 +1705,18 @@
                 image: 'icon_white.png',
                 description: '比起普通清潔工掃把更強大的清潔力！續航力max，無需換水，0死角清潔！',
                 features: [
-                    { icon: '🌀', name: '反重力系統', desc: '輕鬆在零重力環境中操作' },
-                    { icon: '⚡', name: '離子淨化', desc: '消除靜電和有害離子' },
-                    { icon: '🪶', name: '超輕設計', desc: '僅重 800g，長時間使用不疲勞' },
-                    { icon: '🔧', name: '模組化設計', desc: '可更換不同刷頭適應各種任務' }
+                    { icon: '🧹', name: '升級功能', desc: '比入門級掃把更多款清潔刷頭！額外升級吸塵、消毒噴霧功能。' },
+                    { icon: '🙌', name: '解放雙手 ', desc: '更輕量，更強大！' },
+                    { icon: '🚰', name: '分子科技 ', desc: '無需連接水源即可使用沖水模式' },
+                    { icon: '🔋', name: '無需充能', desc: '從空氣提取再生能源，續航力max！' }
                 ],
                 specs: {
-                    '長度': '1.8 公尺',
-                    '重量': '0.8 kg',
-                    '材質': '碳纖維 + 鈦合金',
-                    '刷頭類型': '5 種可選',
-                    '保固期': '5 年',
-                    '原產地': '火星工廠'
+                   '價格': '500 Cp.',
+                    '續航力': 'N/A',
+                    '重量': '0.35 kg',
+                    '使用條件': '需加入清潔劑',
+                    '耐久度': 'N/A',
+                    '製造商': '天體清潔公司本部'
                 }
             },
             {
@@ -1631,18 +1729,18 @@
                 image: 'icon_white.png',
                 description: '每位星際清潔工入職後自動配給的入門級防護服，易於清洗，擁有基本保暖及納米級led發光功能。',
                 features: [
-                    { icon: '🧠', name: 'AI 自主導航', desc: '完全自動駕駛，可遠程監控' },
-                    { icon: '📡', name: '量子雷達', desc: '偵測 1000 公里內所有碎片' },
-                    { icon: '🗃️', name: '超大儲存', desc: '可容納 500 立方公尺太空垃圾' },
-                    { icon: '🛡️', name: '裝甲防護', desc: '抵擋小型隕石撞擊' }
+                    { icon: '✨', name: '納米級led', desc: '可從員工面版更改顯示內容，更個性化的設計！' },
+                    { icon: '💧', name: '防水物料', desc: '易於清洗，不易留污。' },
+                    { icon: '♨️', name: '保暖功能', desc: '極地漫步，輕輕鬆鬆！' },
+                    { icon: '🛡️', name: '物理防護', desc: '能抵擋輕度物理傷害。' }
                 ],
                 specs: {
-                    '長度': '25 公尺',
-                    '載重量': '200 噸',
-                    '最高速度': '50,000 km/h',
-                    '乘員': '2-4 人',
-                    '保固期': '15 年',
-                    '燃料類型': '反物質'
+                    '價格': '800 Cp.',
+                    '續航力': 'N/A',
+                    '重量': '0.85 kg',
+                    '使用條件': '無',
+                    '耐久度': '或會因外部傷害受損',
+                    '製造商': '天體清潔公司本部'
                 }
             },
             {
@@ -1655,90 +1753,87 @@
                 image: 'icon_white.png',
                 description: '提升防毒、防輻射、防火等防禦機能外亦確保用家機動性，適用於B級或以上的清潔項目。',
                 features: [
-                    { icon: '🛡️', name: '多層防護', desc: '納米材料 + 能量護盾雙重保護' },
+                    { icon: '🛡️', name: '多方位防護', desc: '比入門防護服更強大的防護力！毒氣、輻射或其他極端環境下依能自如。' },
                     { icon: '🔬', name: '自我修復', desc: '小破損可在 30 秒內自動修復' },
-                    { icon: '🌡️', name: '溫控系統', desc: '維持體感溫度 20-25°C' },
-                    { icon: '💨', name: '氧氣循環', desc: '內建 72 小時氧氣供應' }
+                    { icon: '👟', name: '機動設計', desc: '採用貼身版型，追求輕量與高性能，適用於B級或以上的清潔項目。' },
+                    { icon: '🤖', name: 'AI智能分析', desc: '配備智能眼罩，即時分析周遭環境。' }
                 ],
                 specs: {
-                    '尺寸': 'S / M / L / XL',
-                    '重量': '2.5 kg',
-                    '防護等級': 'Level 5',
-                    '氧氣容量': '72 小時',
-                    '保固期': '7 年',
-                    '顏色': '太空藍 / 星雲紫'
+                     '價格': '2000 Cp.',
+                    '續航力': 'N/A',
+                    '重量': '3.0 kg',
+                    '使用條件': '無',
+                    '耐久度': '或會因外部傷害受損',
+                    '製造商': '天體清潔公司本部'
                 }
             },
             {
                 id: 5,
                 name: '清潔工防護服-全防護款',
-                price: '2800',
+                price: '3000',
                 category: 'protection',
                 categoryName: '防護裝備',
                 icon: '🧤',
                 image: 'icon_white.png',
                 description: '減少機動性以提供全方位保護，適用於A級或以上的清潔項目。',
                 features: [
-                    { icon: '🧲', name: '電磁增強', desc: '可吸附 500kg 的金屬物體' },
-                    { icon: '🔥', name: '耐高溫', desc: '可接觸 2000°C 高溫物體' },
-                    { icon: '❄️', name: '耐低溫', desc: '可在 -273°C 環境使用' },
-                    { icon: '🎮', name: '觸覺反饋', desc: '精確感知抓取物體的質地和重量' }
+                    { icon: '🛡️', name: '全方位防護', desc: '全面守護你的安全，能在毒氣、輻射或其他極端環境下進行長期活動。' },
+                    { icon: '🤖', name: 'AI智能分析', desc: '配備智能眼罩，即時分析周遭環境。' }
                 ],
                 specs: {
-                    '最大吸力': '500 kg',
-                    '電池續航': '24 小時',
-                    '尺寸': 'S / M / L',
-                    '材質': '納米纖維',
-                    '保固期': '3 年',
-                    '充電時間': '1 小時'
+                     '價格': '3000 Cp.',
+                    '續航力': 'N/A',
+                    '重量': '5.6 kg',
+                    '使用條件': '無',
+                    '耐久度': 'N/A',
+                    '製造商': '天體清潔公司本部'
                 }
             },
             {
                 id: 6,
                 name: '全息掃描儀',
-                price: '800',
+                price: '1500',
                 category: 'equipment',
                 categoryName: '清潔設備',
                 icon: '📡',
                 image: 'icon_white.png',
                 description: '用於掃描及定位周遭可見垃圾，配備氣體分析功能。',
                 features: [
-                    { icon: '🎯', name: '精準定位', desc: '誤差小於 1 公分' },
-                    { icon: '📊', name: '即時分析', desc: '自動分析碎片成分和價值' },
-                    { icon: '🗺️', name: '3D 建模', desc: '生成周圍環境的 3D 地圖' },
-                    { icon: '📱', name: '遠程同步', desc: '資料即時傳送到指揮中心' }
-                ],
+                    { icon: '😎', name: '簡單易用', desc: '按下開關後只需將掃描儀伸向前方即能開始分析' },
+                    { icon: '📊', name: '超精準分析', desc: '將隱藏在周遭的垃圾可視化！適合追求清潔無微不至的你。' },
+                    { icon: '🤓', name: '資訊量超大', desc: '還能分析空氣成份、濕度及鄰近生命體喔！' }
+            ],
                 specs: {
-                    '掃描範圍': '1000 公里',
-                    '解析度': '1 公分',
-                    '掃描速度': '100 km²/秒',
-                    '資料儲存': '10 TB',
-                    '保固期': '5 年',
-                    '電池續航': '48 小時'
+                     '價格': '1500 Cp.',
+                    '續航力': '能量充滿後可用20次',
+                    '重量': '1.2 kg',
+                    '使用條件': '需充能',
+                    '耐久度': '或會因外部傷害受損',
+                    '製造商': '天體清潔公司科研部'
                 }
             },
             {
                 id: 7,
                 name: '大型物件分解槍',
-                price: '500',
+                price: '1000',
                 category: 'equipment',
                 categoryName: '清潔設備',
                 icon: '🎒',
                 image: 'icon_white.png',
                 description: '用於分解大型物件，請勿朝健全員工使用此裝備。',
                 features: [
-                    { icon: '🚀', name: '精確控制', desc: '可進行毫米級精確移動' },
-                    { icon: '⚡', name: '快速加速', desc: '0-100 km/h 僅需 2 秒' },
-                    { icon: '🔋', name: '長續航', desc: '單次充電可使用 12 小時' },
-                    { icon: '🪶', name: '輕量化', desc: '僅重 8kg，不影響活動' }
+                    { icon: '✨', name: '快速上手', desc: '只需對準切割位置，按下按鈕就能快速切割！' },
+                    { icon: '😎', name: '甚麼都能切', desc: '請勿朝健全員工使用此裝備。' },
+                    { icon: '🙌', name: '超輕量', desc: '手槍式設計，掛在腰間超方便！' },
+                    { icon: '🔫', name: '一槍二用', desc: '可作為武器使用。' }
                 ],
                 specs: {
-                    '最高速度': '150 km/h',
-                    '加速度': '50 m/s²',
-                    '續航時間': '12 小時',
-                    '重量': '8 kg',
-                    '保固期': '4 年',
-                    '燃料': '離子電池'
+                   '價格': '1000 Cp.',
+                    '續航力': '能量充滿後可用8次',
+                    '重量': '0.4 kg',
+                    '使用條件': '需充能',
+                    '耐久度': '或會因外部傷害受損',
+                    '製造商': '天體清潔公司科研部'
                 }
             },
             {
@@ -1751,18 +1846,17 @@
                 image: 'icon_white.png',
                 description: '消耗品，每位星際清潔工入職後自動配給10瓶，輕微提升清潔效能，適用於廣泛衛生清潔。',
                 features: [
-                    { icon: '⚛️', name: '分子分解', desc: '將物體分解為原子級別' },
-                    { icon: '🎯', name: '精準射擊', desc: '有效射程 500 公尺' },
-                    { icon: '♻️', name: '環保無害', desc: '分解產物完全無害' },
-                    { icon: '🔒', name: '安全鎖', desc: '多重安全機制防止誤觸' }
+                    { icon: '🧽', name: '入門必備', desc: '超強表面去污能力！適用於大部份清潔任務。' },
+                    { icon: '🧼', name: '超強消毒力', desc: '能消滅99.9%細菌病毒！' },
+                    { icon: '💚', name: '安全使用', desc: '採用生物友好成份，對環境安全及健康完全沒有負擔。' }
                 ],
                 specs: {
-                    '射程': '500 公尺',
-                    '功率': '可調 1-10 級',
-                    '冷卻時間': '3 秒',
-                    '彈藥容量': '1000 發',
-                    '保固期': '8 年',
-                    '安全等級': 'AAA+'
+                     '價格': '10 Cp.',
+                    '續航力': 'N/A',
+                    '重量': '1.0 kg',
+                    '使用條件': '無',
+                    '耐久度': '一次性消耗品',
+                    '製造商': '天體清潔公司本部'
                 }
             },
             {
@@ -1775,18 +1869,16 @@
                 image: 'icon_white.png',
                 description: '消耗品，專精於移除氣味或深層滲入性污垢，適用於特殊清潔項目。 ',
                 features: [
-                    { icon: '🌍', name: '重力場生成', desc: '創造 0.1-2G 的可調重力' },
-                    { icon: '📏', name: '範圍可調', desc: '作用半徑 1-50 公尺' },
-                    { icon: '⚡', name: '低功耗', desc: '僅需 100W 功率' },
-                    { icon: '🔄', name: '快速切換', desc: '1 秒內完成重力調整' }
+                    { icon: '😷', name: '特殊清潔專用', desc: '深入移除滲入性污垢及異味，適用於D級或以上清潔項目。' },
+                    { icon: '🧼', name: '超強消毒力', desc: '能消滅99.9%細菌病毒！' }
                 ],
                 specs: {
-                    '重力範圍': '0.1-2G',
-                    '作用半徑': '1-50 公尺',
-                    '功耗': '100W',
-                    '重量': '5 kg',
-                    '保固期': '6 年',
-                    '能源': '核融合電池'
+                     '價格': '10 Cp.',
+                    '續航力': 'N/A',
+                    '重量': '1.0 kg',
+                    '使用條件': '需佩戴手套',
+                    '耐久度': '一次性消耗品',
+                    '製造商': '天體清潔公司本部'
                 }
             },
             
@@ -1799,7 +1891,7 @@
             const grid = document.getElementById('staffGrid');
             grid.innerHTML = staffData.map(staff => `
                 <div class="staff-card" onclick="showStaffDetail('${staff.id}')">
-                    <img src="celestial-cleaner-id.png" alt="${staff.name}">
+                    <img src="${staff.image}" alt="${staff.name}">
                 </div>
             `).join('');
         }
@@ -1819,7 +1911,7 @@
                         <div class="shop-item-category">${item.categoryName}</div>
                         <div class="shop-item-header">
                             <div class="shop-item-name">${item.name}</div>
-                            <div class="shop-item-price">¥${item.price}</div>
+                            <div class="shop-item-price">${item.price} Cp.</div>
                         </div>
                         <p class="shop-item-description">${item.description}</p>
                     </div>
@@ -1864,7 +1956,7 @@
             
             document.getElementById('productName').textContent = product.name;
             document.getElementById('productCategory').textContent = product.categoryName;
-            document.getElementById('productPrice').textContent = `¥${product.price}`;
+            document.getElementById('productPrice').textContent = `${product.price} Cp.`;
             document.getElementById('productDescription').textContent = product.description;
 
             const modalBody = document.getElementById('productModalBody');
@@ -1925,7 +2017,7 @@
             const body = document.getElementById('modalBody');
 
             avatar.innerHTML = staff.image ? 
-                `<img src="celestial-cleaner-id.png" alt="${staff.name}">` : 
+                `<img src="${staff.avatar}" alt="${staff.name}">` : 
                 '👤';
             
             name.textContent = staff.name;
@@ -1935,38 +2027,25 @@
                 <div class="detail-section">
                     <h3>📋 基本資訊</h3>
                     <div class="detail-item">
-                        <span class="detail-label">船員編號</span>
+                        <span class="detail-label">清潔工編號</span>
                         <span class="detail-value">${staff.id}</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">等級</span>
-                        <span class="detail-value">Level ${staff.level}</span>
+                        <span class="detail-label">死亡次數</span>
+                        <span class="detail-value"> ${staff.death}</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">所屬部門</span>
+                        <span class="detail-label">所屬小隊</span>
                         <span class="detail-value">${staff.department}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">專業領域</span>
-                        <span class="detail-value">${staff.specialization}</span>
                     </div>
                 </div>
 
                 <div class="detail-section">
-                    <h3>📊 任務統計</h3>
-                    <div class="detail-item">
-                        <span class="detail-label">完成任務</span>
-                        <span class="detail-value">${staff.missions} 次</span>
+                    <h3>💬 簡介</h3>
+                    <div class="staff-quote">
+                        <span class="staff-quote">"${staff.quote}" </span>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">總經驗值</span>
-                        <span class="detail-value">${staff.experience.toLocaleString()} XP</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">成功率</span>
-                        <span class="detail-value">${Math.floor(85 + Math.random() * 15)}%</span>
-                    </div>
-                </div>
+                    
             `;
 
             modal.classList.add('active');
