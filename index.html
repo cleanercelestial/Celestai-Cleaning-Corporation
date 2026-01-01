@@ -1194,6 +1194,159 @@
         .inline-link:hover {
             color: var(--primary);
         }
+        
+        .inline-link:hover {
+            color: var(--primary);
+        }
+
+        /* 制服展示圖片樣式 - 橫向滑動 */
+        .uniform-showcase {
+            margin: 30px 0;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid rgba(37, 99, 235, 0);
+        }
+
+        .uniform-showcase-title {
+            font-size: 1.2em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .uniform-slider-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(30, 41, 59, 0);
+        }
+
+        .uniform-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--light);
+            gap: 0;
+        }
+
+        .uniform-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .uniform-slider::-webkit-scrollbar-track {
+            background: var(--light);
+            border-radius: 10px;
+        }
+
+        .uniform-slider::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .uniform-slider::-webkit-scrollbar-thumb:hover {
+            background: #1d4ed8;
+        }
+
+        .uniform-slide {
+            min-width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .uniform-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            background: white;
+        }
+
+        .uniform-slide-label {
+            padding: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--dark);
+            background: white;
+            border-top: 2px solid var(--light);
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 0 5px;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--grid);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-dot.active {
+            background: var(--primary);
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        .slider-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(30, 41, 59, 0.2);
+        }
+
+        .slider-nav-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-nav-btn.prev {
+            left: 15px;
+        }
+
+        .slider-nav-btn.next {
+            right: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .slider-nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2em;
+            }
+            
+            .slider-nav-btn.prev {
+                left: 10px;
+            }
+            
+            .slider-nav-btn.next {
+                right: 10px;
+            }
+        }
+    </style>
     </style>
 </head>
 <body>
@@ -1364,21 +1517,48 @@
 
             </div>
 
-            <div class="doc-section">
+          <div class="doc-section">
                 <h2>員工規範</h2>   
                
                 
-                <h3>1. 基本儀容</h3>
+               <h3>1. 基本儀容</h3>
                  <UL><p>
                     ［1.1］員工需隨時穿着帶有公司圖示的合規格制服。<br>
-                    ［1.2］由於物種體型不一，本公司允許員工根據自身需求訂製特別版型之制服，修改長度、減少或增加制服袖口為合規格修改。<br>
-                    ［1.3］軟體生物等不適合穿著制服等員工，必佩戴公司圖示金屬章及每日噴上特製噴霧以使用基本制服功能。<br>
-                    ［1.4］任務期間需嚴格遵守此制服led使用守則。除非指揮部門下令，請勿於任務期間擅自更改制服led圖示。<br>
-                </p> </UL> 
+                    ［1.2］由於物種體型不一,本公司允許員工根據自身需求訂製特別版型之制服,修改長度、減少或增加制服袖口為合規格修改。<br>
+                    ［1.3］軟體生物等不適合穿著制服等員工,必佩戴公司圖示金屬章及每日噴上特製噴霧以使用基本制服功能。<br>
+                    ［1.4］任務期間需嚴格遵守此制服led使用守則。除非指揮部門下令,請勿於任務期間擅自更改制服led圖示。<br>
+                </p> </UL>
+
+                <!-- 制服展示區 - 橫向滑動 -->
+                <div class="uniform-showcase">
+                    <div class="uniform-showcase-title">制服樣式參考</div>
+                    <div class="uniform-slider-container">
+                        <button class="slider-nav-btn prev" onclick="navigateSlide(-1)">‹</button>
+                        <button class="slider-nav-btn next" onclick="navigateSlide(1)">›</button>
+                        
+                        <div class="uniform-slider" id="uniformSlider">
+                            <div class="uniform-slide">
+                                <img src="assets/uniform/basic.png" alt="基本制服樣式">
+                                <div class="uniform-slide-label">基本制服樣式</div>
+                            </div>
+                            <div class="uniform-slide">
+                                <img src="assets/uniform/accept.png" alt="合格制服範例">
+                                <div class="uniform-slide-label">合格制服範例</div>
+                            </div>
+                            <div class="uniform-slide">
+                                <img src="assets/uniform/unaccept.png" alt="不合格制服範例">
+                                <div class="uniform-slide-label">不合格制服範例</div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    
+                    <div class="slider-dots" id="sliderDots"></div>
+                </div>
 
                 <h3>2. 工作紀律</h3>
                 <ul><p>
-                    ［2.1］員工每日需使用 !每日簽到 準時打卡，否則將以曠工為由扣除該日工資。<br>
+                    ［2.1］員工每日需使用 !每日簽到 準時打卡,否則將以曠工為由扣除該日工資。<br>
                     ［2.2］請避免與其他員工發生肢體及語言衝突。<br>
                     ［2.3］請以認真的態度完成工作，切勿敷衍了事。<br>
                     ［2.4］任何與機械或危險用品有關之操作，必須嚴謹按照操作流程執行。<br>
@@ -2176,6 +2356,69 @@
             generateStaffCards();
             generateShopItems();
         });
+
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            createGridLines();
+            generateStaffCards();
+            generateShopItems();
+            initUniformSlider(); // 新增這行
+        });
+
+        // 制服輪播功能
+        let currentSlide = 0;
+        const slider = document.getElementById('uniformSlider');
+        const slides = document.querySelectorAll('.uniform-slide');
+        const dotsContainer = document.getElementById('sliderDots');
+
+        function initUniformSlider() {
+            // 創建指示點
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'slider-dot';
+                if (index === 0) dot.classList.add('active');
+                dot.onclick = () => goToSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            // 監聽滑動事件
+            slider.addEventListener('scroll', updateDotsOnScroll);
+        }
+
+        function navigateSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            goToSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            const slideWidth = slides[0].offsetWidth;
+            slider.scrollTo({
+                left: slideWidth * index,
+                behavior: 'smooth'
+            });
+            updateDots();
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.slider-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function updateDotsOnScroll() {
+            const slideWidth = slides[0].offsetWidth;
+            const scrollPosition = slider.scrollLeft;
+            const newSlide = Math.round(scrollPosition / slideWidth);
+            if (newSlide !== currentSlide) {
+                currentSlide = newSlide;
+                updateDots();
+            }
+        }
+    </script>
     </script>
 </body>
 </html>
