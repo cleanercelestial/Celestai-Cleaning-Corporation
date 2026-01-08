@@ -2715,7 +2715,7 @@ async def help_command(ctx):
 
 # ==================== 啟動 Bot ====================
 if __name__ == "__main__":
-    TOKEN = 'MTM1MDc3NTUxMzIzNjM3NzcwMA.GgSyvZ.i2fbgv2iMYS8qMJDuxQ1frKAYV_JoDTyL9edNQ'
+    TOKEN = 'YOURＴＯＫＥＮ　ＨＥＲＥ'
     
     print("正在啟動天體清掃公司 Bot...")
     print("請確保已安裝 discord.py 和 aiohttp:")
