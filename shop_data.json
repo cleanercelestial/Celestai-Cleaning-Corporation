@@ -1,0 +1,118 @@
+{
+  "清潔設備": {
+    "清潔工掃把": {
+      "price": 1,
+      "weight": 0.6,
+      "description": "每位星際清潔工入職後自動配給的入門級掃把，除非你很雖小把它搞丟了。",
+      "type": "tool",
+      "reagents": {
+        "標準清潔劑": 100,
+        "特殊清潔劑": 100
+      }
+    },
+    "清潔工掃把pro": {
+      "price": 1,
+      "weight": 0.35,
+      "description": "比起普通清潔工掃把更強大的清潔力！續航力max，無需換水，0死角清潔！",
+      "type": "tool",
+      "reagents": {
+        "標準清潔劑": 500,
+        "特殊清潔劑": 500
+      }
+    },
+    "全息掃描儀": {
+      "price": 1,
+      "weight": 1.2,
+      "description": "用於掃描及定位周遭可見垃圾，配備氣體分析功能。",
+      "type": "tool"
+    },
+    "大型物件分解槍": {
+      "price": 1,
+      "weight": 0.4,
+      "description": "用於分解大型物件，請勿朝健全員工使用此裝備。",
+      "type": "tool"
+    }
+  },
+  "清潔劑": {
+    "標準清潔劑": {
+      "price": 5,
+      "weight": 0.1,
+      "description": "消耗品，每位星際清潔工入職後自動配給10瓶，輕微提升清潔效能，適用於廣泛衛生清潔。",
+      "type": "reagent",
+      "capacity": 100
+    },
+    "特殊清潔劑": {
+      "price": 20,
+      "weight": 0.1,
+      "description": "消耗品，專精於移除氣味或深層滲入性污垢，適用於特殊清潔項目。",
+      "type": "reagent",
+      "capacity": 100
+    }
+  },
+  "防護裝備": {
+    "【起始裝備】清潔工防護服": {
+      "price": 1,
+      "weight": 0.85,
+      "description": "每位星際清潔工入職後自動配給的入門級防護服，易於清洗，擁有基本保暖及納米級led發光功能。",
+      "type": "outfit"
+    },
+    "清潔工防護服-機動款": {
+      "price": 1,
+      "weight": 3,
+      "description": "提升防毒、防輻射、防火等防禦機能外亦確保用家機動性，適用於B級或以上的清潔項目。",
+      "type": "outfit"
+    },
+    "清潔工防護服-全防護款": {
+      "price": 3,
+      "weight": 5.6,
+      "description": "減少機動性以提供全方位保護，適用於A級或以上的清潔項目。",
+      "type": "outfit"
+    }
+  },
+  "醫療用品": {
+    "急救包": {
+      "price": 3,
+      "weight": 0.5,
+      "description": "消耗品，基礎醫療包，恢復 30 HP。",
+      "heal": 30
+    },
+    "醫療噴霧": {
+      "price": 5,
+      "weight": 0.3,
+      "description": "消耗品，納米修復噴霧，恢復 50 HP。",
+      "heal": 50
+    },
+    "進階醫療套組": {
+      "price": 1,
+      "weight": 1.0,
+      "description": "消耗品，完整醫療設備，恢復 100 HP。",
+      "heal": 100
+    }
+  },
+  "食物": {
+    "能量棒": {
+      "price": 10,
+      "weight": 0.5,
+      "description": "消耗品，恢復 20 體力。",
+      "stamina": 20
+    },
+    "營養餐": {
+      "price": 25,
+      "weight": 1,
+      "description": "消耗品，恢復 50 體力。",
+      "stamina": 50
+    },
+    "高級料理": {
+      "price": 60,
+      "weight": 1.5,
+      "description": "消耗品，恢復 100 體力。",
+      "stamina": 100
+    },
+    "星際咖啡": {
+      "price": 15,
+      "weight": 0.3,
+      "description": "消耗品，恢復 30 體力。",
+      "stamina": 30
+    }
+  }
+}

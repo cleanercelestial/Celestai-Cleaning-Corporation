@@ -1,0 +1,57 @@
+{
+  "1315360623189688412": {
+    "C2": {
+      "name": "Hato的屍體",
+      "type": "corpse",
+      "weight": 60.0,
+      "owner_id": "934982547132272641",
+      "placed_by": "系統"
+    },
+    "C3": {
+      "name": "nigga的屍體",
+      "type": "corpse",
+      "weight": 99.0,
+      "owner_id": "609022258798919705",
+      "placed_by": "Weed"
+    },
+    "C4": {
+      "name": "nigga的屍體",
+      "type": "corpse",
+      "weight": 99.0,
+      "owner_id": "609022258798919705",
+      "placed_by": "系統"
+    },
+    "ITEM_4": {
+      "name": "被切割的nigga的屍體",
+      "weight": 49.5,
+      "placed_by": "Weed"
+    },
+    "ITEM_5": {
+      "name": "被切割的nigga的屍體",
+      "weight": 49.5,
+      "placed_by": "Weed"
+    },
+    "ITEM_6": {
+      "name": "被切割的營養餐",
+      "weight": 0.5,
+      "placed_by": "Weed"
+    }
+  },
+  "1444367769284903195": {
+    "ITEM_1": {
+      "name": "Hato的屍體",
+      "weight": 0,
+      "placed_by": "蟑老闆"
+    },
+    "ITEM_2": {
+      "name": "廢棄紙箱",
+      "weight": 0,
+      "placed_by": "蟑老闆"
+    },
+    "ITEM_3": {
+      "name": "廢棄紙箱",
+      "weight": 0,
+      "placed_by": "蟑老闆"
+    }
+  }
+}

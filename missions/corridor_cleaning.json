@@ -1,0 +1,66 @@
+{
+  "title": "走廊清潔任務",
+  "description": "清理走廊的垃圾並進行清潔工作",
+  "difficulty": "簡單",
+  "estimated_time": "10-15分鐘",
+  "danger_level": "低",
+  "recommended_items": [
+    "清潔工掃把",
+    "標準清潔劑",
+    "能量棒"
+  ],
+  "steps": {
+    "start": {
+      "description": "走廊散落著一些垃圾，請先收集所有垃圾。\n進度: {collected_items}/5",
+      "actions": [
+        {
+          "type": "spawn_items",
+          "items": [
+            {
+              "name": "廢棄紙箱",
+              "weight": 2.5,
+              "count": 3
+            },
+            {
+              "name": "空飲料罐",
+              "weight": 0.1,
+              "count": 2
+            }
+          ]
+        }
+      ],
+      "completion_conditions": [
+        {
+          "type": "collect_items",
+          "count": 5
+        }
+      ],
+      "next_step": "cleaning",
+      "hints": [
+        "使用 !check 查看場景物品",
+        "使用 !pick [物品編號] 拾取物品"
+      ]
+    },
+    "cleaning": {
+      "description": "垃圾已清理完畢，現在請使用清潔工具清潔走廊。\n清潔進度: {sweep_count}/3",
+      "completion_conditions": [
+        {
+          "type": "sweep_count",
+          "count": 3
+        }
+      ],
+      "next_step": "mission_complete",
+      "hints": [
+        "使用 !equip 清潔工掃把 裝備工具",
+        "使用 !use 清潔工掃把 進行清潔"
+      ]
+    },
+    "mission_complete": {
+      "description": "任務完成！走廊已經煥然一新。",
+      "rewards": {
+        "cp": 100,
+        "experience": 50
+      }
+    }
+  }
+}
